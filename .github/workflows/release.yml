@@ -4,7 +4,7 @@ name: Releases
 on:
   push:
     branches:
-      - master
+      - JamesL184-patch-1
   pull_request:
   workflow_dispatch:
   release:
