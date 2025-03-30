@@ -64,7 +64,7 @@ jobs:
           make build-all
 
           # GH requires all files to have different names, so add version/arch to differentiate
-          foreach($Arch in "amd64", "arm64") {
+          foreach($Arch in "386","amd64", "arm64") {
             Move-Item output\$Arch\windows_exporter.exe output\windows_exporter-$Version-$Arch.exe
           }
 
@@ -95,7 +95,7 @@ jobs:
             Write-Output "signtool.exe not found"
           }
 
-          foreach($Arch in "amd64", "arm64") {
+          foreach($Arch in "386","amd64", "arm64") {
             & $latestSigntool sign /v /tr "http://timestamp.digicert.com" /d "Prometheus exporter for Windows machines" /td SHA256 /fd SHA256 /a /f "windows_exporter_CodeSign.pfx" /p $env:CODE_SIGN_PASSWORD "output\windows_exporter-$Version-$Arch.exe"
           }
 
@@ -109,7 +109,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $Version = Get-Content VERSION
 
-          foreach($Arch in "amd64", "arm64") {
+          foreach($Arch in "386","amd64", "arm64") {
             Write-Host "Building windows_exporter $Version msi for $Arch"
             .\installer\build.ps1 -PathToExecutable .\output\windows_exporter-$Version-$Arch.exe -Version $Version -Arch "$Arch"
           }
